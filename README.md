@@ -43,7 +43,7 @@ Returns the current state of the device in encoded JSON format.
 | `volume` | Current volume (0-200). |
 | `soundStep` | Volume increment step. |
 | `input` | Current input source index. |
-| `output` | Current output destination index (0: XLR, 1: RCA, 2: Headset). |
+| `output` | Current output destination index (0: XLR, 1: RCA, 2: Headset, 3: XLR/RCA). |
 | `audioFormat` | Description of current audio (e.g., "PCM 44.1 KHz"). |
 | `pcm` | PCM mode/status. |
 | `vu` | Current VU meter index. |
@@ -100,7 +100,7 @@ Changes a specific device setting. Multiple parameters can be combined in one re
 | :--- | :--- | :--- |
 | `volume` | 0 - 200 | Set system volume. |
 | `input` | 0 - 6 | Change input source (0: USB, 1: USB-C, 2: Coaxial, 3: Optical, 4: Bluetooth, 5: HDMI-ARC, 6: RCA). |
-| `output` | 0 - 2 | Change output destination (0: XLR, 1: RCA, 2: Headset). |
+| `output` | 0 - 3 | Change output destination (0: XLR, 1: RCA, 2: Headset 3: XLR/RCA). |
 | `vu` | 0 - (vu_count-1) | Change VU meter display style. |
 | `screenLight` | 0, 1, 2 | Set screen brightness. |
 | `knob_breathlight`| 0, 1, 2, 3 | Set knob brightness. |
