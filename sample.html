@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxsin X9 API Sample</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; max-width: 600px; margin: 0 auto; background: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input, button { padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { cursor: pointer; background: #007bff; color: white; border: none; }
+        button:hover { background: #0056b3; }
+        pre { background: #eee; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; }
+        .label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Luxsin X9 API Sample</h1>
+    
+    <div class="card">
+        <div class="label">Device IP:</div>
+        <input type="text" id="ip" value="192.168.2.30" style="width: 100%; box-sizing: border-box;">
+    </div>
+
+    <div class="card">
+        <h2>1. Get Device Info & Volume</h2>
+        <button onclick="getDeviceInfo()">Fetch Status</button>
+        <p>Current Volume: <span id="vol-display">--</span></p>
+        <pre id="info-output">Waiting for fetch...</pre>
+    </div>
+
+    <div class="card">
+        <h2>2. Set Volume</h2>
+        <input type="number" id="vol-input" value="40" min="0" max="200">
+        <button onclick="setVolume()">Set Volume</button>
+        <p id="set-status"></p>
+    </div>
+
+    <script>
+        const ALPHABET_CUSTOM = "KLMPQRSTUVWXYZABCGHdefIJjkNOlmnopqrstuvwxyzabcghiDEF34501289+67/";
+        const ALPHABET_STANDARD = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+        // Custom Base64 Decoder mandatory for X9 API
+        function decodeCustom(encoded) {
+            let translated = "";
+            for (let i = 0; i < encoded.length; i++) {
+                const char = encoded.charAt(i);
+                const index = ALPHABET_CUSTOM.indexOf(char);
+                translated += index !== -1 ? ALPHABET_STANDARD.charAt(index) : char;
+            }
+            const decoded = atob(translated);
+            const bytes = new Uint8Array(decoded.length);
+            for (let i = 0; i < decoded.length; i++) {
+                bytes[i] = decoded.charCodeAt(i);
+            }
+            return new TextDecoder("utf-8").decode(bytes);
+        }
+
+        async function getDeviceInfo() {
+            const ip = document.getElementById('ip').value;
+            const output = document.getElementById('info-output');
+            const volDisplay = document.getElementById('vol-display');
+            
+            output.innerText = "Fetching...";
+            
+            try {
+                // Endpoint for full device state
+                const response = await fetch(`http://${ip}/dev/info.cgi?action=syncData`);
+                if (!response.ok) throw new Error("Device unreachable");
+                
+                const encodedText = await response.text();
+                const decodedJson = decodeCustom(encodedText);
+                const data = JSON.parse(decodedJson);
+                
+                output.innerText = JSON.stringify(data, null, 2);
+                volDisplay.innerText = data.volume;
+            } catch (err) {
+                output.innerText = "Error: " + err.message;
+            }
+        }
+
+        async function setVolume() {
+            const ip = document.getElementById('ip').value;
+            const vol = document.getElementById('vol-input').value;
+            const status = document.getElementById('set-status');
+            
+            status.innerText = "Sending...";
+            
+            try {
+                // Endpoint to update settings (volume is 0-200)
+                const response = await fetch(`http://${ip}/dev/info.cgi?action=setting&volume=${vol}`);
+                if (!response.ok) throw new Error("Failed to set volume");
+                
+                status.innerText = "Volume set successfully!";
+                setTimeout(() => getDeviceInfo(), 500); // Refresh info after a short delay
+            } catch (err) {
+                status.innerText = "Error: " + err.message;
+            }
+        }
+    </script>
+</body>
+</html>
