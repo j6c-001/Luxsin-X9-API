@@ -1,11 +1,11 @@
 # Luxsin-X9-API
 UNOFFICIAL details of the Luxsin X9 Pre-Amplifier HTTP API for building custom UIs
 
-WARNING -  Be aware:  The documentation below may be wrong. Usage could damage your device incLuding bricking it. I have used it without trouble. USE IT AR YOUR OWN RISK. I would AVOID SENDING OUT-OF-BOUND settings I have no affiliation with the manufacturer etc.
+WARNING - Be aware: The documentation below may be wrong. Usage could damage your device incLuding bricking it. I have used it without trouble. USE IT AR YOUR OWN RISK. I would AVOID SENDING OUT-OF-BOUND settings I have no affiliation with the manufacturer etc.
 
 Thanks in advance for for making corrections! Happy building!
 
-# Amp (Non-Proxied) API Documentation
+# (Non-Proxied) API Documentation
 
 This document describes the API for the Luxsin X9 audio pre-amplifier (Luxsin/Sinilink based). All communication is performed over HTTP directly to the device IP on port 80.
 
