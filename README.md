@@ -1,7 +1,7 @@
 # Luxsin-X9-API
 UNOFFICIAL details of the Luxsin X9 Pre-Amplifier HTTP API for building custom UIs
 
-WARNING - Be aware: The documentation below may be wrong. Usage could damage your device incLuding bricking it. I have used it without trouble. USE IT AR YOUR OWN RISK. I would AVOID SENDING OUT-OF-BOUND settings I have no affiliation with the manufacturer etc.
+WARNING - Be aware: The documentation below may be wrong. Usage could damage your device incLuding bricking it. I have used it without trouble. USE IT AT YOUR OWN RISK. I would AVOID SENDING OUT-OF-BOUND settings I have no affiliation with the manufacturer etc. 
 
 Thanks in advance for for making corrections! Happy building!
 
@@ -39,7 +39,7 @@ Returns the current state of the device in encoded JSON format.
 | `device` | Device model/type ("Luxsin-X9"). |
 | `version` | Firmware version. |
 | `mac` | Device MAC address. |
-| `language` | Current UI language (0: English, 1: ZH-HK, 2: ZH). |
+| `language` | Current UI language (0: English, 1: Trad Chinese, 2: Chinese). |
 | `volume` | Current volume (0-200). |
 | `soundStep` | Volume increment step. |
 | `input` | Current input source index. |
